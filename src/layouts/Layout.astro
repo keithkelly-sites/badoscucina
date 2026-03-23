@@ -1,0 +1,411 @@
+---
+import { Font } from 'astro:assets';
+import { ClientRouter } from 'astro:transitions';
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description?: string;
+  ogImage?: string;
+}
+
+const { title, description = "Wood oven cuisine in McMurray, PA. Intimate Italian dining with a hand-constructed wood-fired oven, seasonal menus, and Calabrian-inspired dishes.", ogImage = "/images/fire.jpg" } = Astro.props;
+const currentPath = Astro.url.pathname;
+const canonicalUrl = new URL(Astro.url.pathname, Astro.site).href;
+const ogImageUrl = new URL(ogImage, Astro.site).href;
+
+const navLinks = [
+  { href: '/', label: 'Home' },
+  { href: '/about', label: 'Our Story' },
+  { href: '/menu', label: 'Menu' },
+  { href: '/contact', label: 'Contact' },
+];
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalUrl} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Bado's Cucina" />
+    <meta property="og:image" content={ogImageUrl} />
+    <Font cssVariable="--font-display" preload={[{ subset: 'latin' }]} />
+    <Font cssVariable="--font-body" preload={[{ subset: 'latin' }]} />
+    <ClientRouter />
+  </head>
+  <body>
+    <a href="#main-content" class="skip-to-content">Skip to content</a>
+
+    <header class="site-header" id="site-header">
+      <nav class="nav container" aria-label="Main navigation">
+        <a href="/" class="nav__logo">
+          Bado's <span class="nav__logo-accent">Cucina</span>
+        </a>
+
+        <button
+          class="nav__toggle"
+          aria-label="Toggle navigation"
+          aria-expanded="false"
+          id="nav-toggle"
+        >
+          <span class="nav__toggle-bar" aria-hidden="true"></span>
+          <span class="nav__toggle-bar" aria-hidden="true"></span>
+        </button>
+
+        <ul class="nav__links" id="nav-links">
+          {navLinks.map(link => {
+            const isActive = currentPath === link.href || (link.href !== '/' && currentPath.startsWith(link.href));
+            return (
+              <li>
+                <a
+                  href={link.href}
+                  class:list={['nav__link', { 'nav__link--active': isActive }]}
+                  {...(isActive ? { 'aria-current': 'page' } : {})}
+                >
+                  {link.label}
+                </a>
+              </li>
+            );
+          })}
+          <li>
+            <a href="tel:7249423904" class="nav__link nav__link--cta">Reserve</a>
+          </li>
+        </ul>
+      </nav>
+    </header>
+
+    <main id="main-content">
+      <slot />
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer__inner">
+        <div class="footer__brand">
+          <p class="footer__name">Bado's Cucina</p>
+          <p class="footer__tagline">Wood Oven Cuisine</p>
+        </div>
+        <address class="footer__info">
+          <p>3825 Washington Rd, McMurray, PA 15317</p>
+          <p><a href="tel:7249423904">724.942.3904</a></p>
+        </address>
+        <div class="footer__social">
+          <a href="https://www.facebook.com/badoswoodoven/" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+      <div class="footer__bottom">
+        <p>&copy; {new Date().getFullYear()} Bado's Cucina</p>
+      </div>
+    </footer>
+
+    <script>
+      // Scroll-triggered reveal
+      function initReveals() {
+        const reveals = document.querySelectorAll('.reveal');
+        if (!reveals.length) return;
+
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('is-visible');
+              observer.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+
+        reveals.forEach(el => observer.observe(el));
+      }
+
+      // Header background on scroll
+      function initHeader() {
+        const header = document.getElementById('site-header');
+        if (!header) return;
+
+        let ticking = false;
+        window.addEventListener('scroll', () => {
+          if (!ticking) {
+            requestAnimationFrame(() => {
+              header.classList.toggle('is-scrolled', window.scrollY > 60);
+              ticking = false;
+            });
+            ticking = true;
+          }
+        }, { passive: true });
+      }
+
+      // Mobile nav toggle
+      function initMobileNav() {
+        const toggle = document.getElementById('nav-toggle');
+        const links = document.getElementById('nav-links');
+        if (!toggle || !links) return;
+
+        toggle.addEventListener('click', () => {
+          const isOpen = toggle.getAttribute('aria-expanded') === 'true';
+          toggle.setAttribute('aria-expanded', String(!isOpen));
+          links.classList.toggle('is-open');
+        });
+
+        links.querySelectorAll('a').forEach(link => {
+          link.addEventListener('click', () => {
+            toggle.setAttribute('aria-expanded', 'false');
+            links.classList.remove('is-open');
+          });
+        });
+      }
+
+      document.documentElement.classList.add('js');
+      initReveals();
+      initHeader();
+      initMobileNav();
+
+      document.addEventListener('astro:after-swap', () => {
+        document.documentElement.classList.add('js');
+        initReveals();
+        initHeader();
+        initMobileNav();
+      });
+    </script>
+  </body>
+</html>
+
+<style>
+  /* Header */
+  .site-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    padding-block: var(--space-m);
+    transition: background 0.4s, padding 0.4s, backdrop-filter 0.4s;
+  }
+
+  .site-header.is-scrolled {
+    background: oklch(0.13 0.01 55 / 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    padding-block: var(--space-s);
+  }
+
+  .nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .nav__logo {
+    font-family: var(--font-display), Georgia, serif;
+    font-size: clamp(1.25rem, 1.1rem + 0.5vw, 1.6rem);
+    font-weight: 400;
+    font-style: italic;
+    letter-spacing: 0.02em;
+    color: var(--color-text);
+    transition: color 0.3s;
+  }
+
+  .nav__logo-accent {
+    color: var(--color-accent);
+  }
+
+  .nav__links {
+    display: flex;
+    align-items: center;
+    gap: var(--space-l);
+  }
+
+  .nav__link {
+    font-size: 0.8rem;
+    font-weight: 400;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+    transition: color 0.3s;
+    position: relative;
+
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 1px;
+      background: var(--color-accent);
+      transition: width 0.3s var(--ease-out);
+    }
+
+    &:hover,
+    &.nav__link--active {
+      color: var(--color-text);
+    }
+
+    &:hover::after,
+    &.nav__link--active::after {
+      width: 100%;
+    }
+  }
+
+  .nav__link--cta {
+    color: var(--color-accent);
+    border: 1px solid var(--color-accent);
+    padding: 0.5em 1.2em;
+
+    &::after { display: none; }
+
+    &:hover {
+      background: var(--color-accent);
+      color: var(--color-bg);
+    }
+  }
+
+  /* Skip to content */
+  .skip-to-content {
+    position: absolute;
+    top: -100%;
+    left: var(--space-m);
+    z-index: 200;
+    padding: 0.75em 1.5em;
+    background: var(--color-accent);
+    color: var(--color-bg);
+    font-size: 0.85rem;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    text-decoration: none;
+
+    &:focus {
+      top: var(--space-s);
+    }
+  }
+
+  /* Mobile toggle */
+  .nav__toggle {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    gap: 6px;
+    min-width: 44px;
+    min-height: 44px;
+    padding: 10px;
+    z-index: 110;
+  }
+
+  .nav__toggle-bar {
+    display: block;
+    width: 24px;
+    height: 1.5px;
+    background: var(--color-text);
+    transition: transform 0.3s, opacity 0.3s;
+  }
+
+  .nav__toggle[aria-expanded="true"] .nav__toggle-bar:first-child {
+    transform: translateY(3.75px) rotate(45deg);
+  }
+
+  .nav__toggle[aria-expanded="true"] .nav__toggle-bar:last-child {
+    transform: translateY(-3.75px) rotate(-45deg);
+  }
+
+  @media (max-width: 768px) {
+    .nav__toggle {
+      display: flex;
+    }
+
+    .nav__links {
+      position: fixed;
+      inset: 0;
+      flex-direction: column;
+      justify-content: center;
+      gap: var(--space-l);
+      background: var(--color-bg);
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.4s, visibility 0.4s;
+    }
+
+    .nav__links.is-open {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .nav__link {
+      font-size: 1rem;
+      letter-spacing: 0.2em;
+    }
+  }
+
+  /* Footer */
+  .site-footer {
+    border-top: 1px solid var(--color-border);
+    padding-top: var(--space-xl);
+    margin-top: var(--space-2xl);
+  }
+
+  .footer__inner {
+    display: grid;
+    grid-template-columns: 1fr auto auto;
+    align-items: start;
+    gap: var(--space-xl);
+  }
+
+  .footer__name {
+    font-family: var(--font-display), Georgia, serif;
+    font-size: 1.25rem;
+    font-style: italic;
+  }
+
+  .footer__tagline {
+    font-size: 0.8rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+    margin-top: 0.25em;
+  }
+
+  .footer__info {
+    font-style: normal;
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
+    text-align: right;
+
+    & a:hover {
+      color: var(--color-accent);
+    }
+  }
+
+  .footer__social a {
+    color: var(--color-text-muted);
+    transition: color 0.3s;
+
+    &:hover {
+      color: var(--color-accent);
+    }
+  }
+
+  .footer__bottom {
+    text-align: center;
+    padding-block: var(--space-l);
+    font-size: 0.8rem;
+    color: var(--color-stone);
+  }
+
+  @media (max-width: 640px) {
+    .footer__inner {
+      grid-template-columns: 1fr;
+      text-align: center;
+      gap: var(--space-m);
+    }
+
+    .footer__info {
+      text-align: center;
+    }
+  }
+</style>

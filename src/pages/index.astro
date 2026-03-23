@@ -1,0 +1,527 @@
+---
+/*
+  DESIGN CONCEPT:
+  Inspired by Temper's unapologetic darkness and fire-forward identity.
+
+  The signature moment: "BADO'S" at massive scale, filled with the actual fire
+  photo via CSS background-clip: text. The word is literally ablaze against
+  near-black. Bodoni Moda — an Italian typeface born in Parma — at extreme scale
+  creates razor-thin hairlines contrasted with bold strokes, mirroring the
+  interplay of flame and shadow inside the restaurant.
+
+  The rest of the page is dark and warm, with amber accents drawn from the
+  copper oven hood and firelight. Photography is treated as windows into the
+  restaurant, bordered and restrained, so the fire-text hero remains the
+  undeniable focal point.
+
+  References: temperrestaurant.com (dark/bold), maisonmastrorelli.com
+  (earthy restraint), CSS background-clip: text technique for fire fill.
+*/
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Bado's Cucina | Wood Oven Cuisine · McMurray, PA" description="Bado's Cucina — intimate Italian wood-fired oven dining in McMurray, PA. Seasonal menus inspired by Calabria. Reservations recommended. 724.942.3904.">
+
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "Restaurant",
+    "name": "Bado's Cucina",
+    "url": "https://badoscucina.keithkelly.dev",
+    "telephone": "724-942-3904",
+    "servesCuisine": "Italian",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "3825 Washington Rd",
+      "addressLocality": "McMurray",
+      "addressRegion": "PA",
+      "postalCode": "15317",
+      "addressCountry": "US"
+    },
+    "openingHoursSpecification": [
+      { "@type": "OpeningHoursSpecification", "dayOfWeek": ["Tuesday", "Wednesday", "Thursday"], "opens": "17:00", "closes": "22:00" },
+      { "@type": "OpeningHoursSpecification", "dayOfWeek": ["Friday", "Saturday"], "opens": "17:00", "closes": "23:00" }
+    ],
+    "image": "https://badoscucina.keithkelly.dev/images/fire.jpg"
+  })} />
+
+  <!-- HERO: The fire-text signature moment -->
+  <section class="hero">
+    <div class="hero__bg">
+      <img src="/images/fire.jpg" alt="" class="hero__bg-img" aria-hidden="true" loading="eager" fetchpriority="high" />
+      <div class="hero__bg-overlay"></div>
+    </div>
+    <div class="hero__content">
+      <div class="hero__fire-text" aria-hidden="true">BADO'S</div>
+      <div class="hero__text-group">
+        <h1 class="hero__title">
+          <span class="sr-only">Bado's</span>
+          <span class="hero__cucina">Cucina</span>
+        </h1>
+        <p class="hero__tagline">Wood Oven Cuisine &middot; McMurray, PA</p>
+      </div>
+    </div>
+    <div class="hero__scroll-hint" aria-hidden="true">
+      <span></span>
+    </div>
+  </section>
+
+  <!-- WELCOME -->
+  <section class="welcome section">
+    <div class="container--narrow" style="text-align: center;">
+      <p class="welcome__quote reveal">
+        Upon arrival you will find our dining room is both intimate and open
+        to a hand-constructed wood-fired oven. Your seat will be in full view
+        of all meals as they are prepared and delivered to our patrons.
+      </p>
+      <hr class="divider reveal" style="margin-inline: auto;" />
+      <p class="welcome__detail reveal">
+        Often times, our menu will be inspired by meats, produce, and spices
+        found at market that very morning.
+      </p>
+    </div>
+  </section>
+
+  <!-- PHOTO STRIP -->
+  <div class="photo-strip reveal">
+    <div class="photo-strip__track">
+      <img src="/images/salad.jpg" alt="Fresh plated salad with roasted chickpeas and beet" loading="lazy" />
+      <img src="/images/adam-oven.jpg" alt="Adam Bados working the wood-fired oven" loading="lazy" />
+      <img src="/images/lamb-chops.jpg" alt="Wood-fired lamb chops" loading="lazy" />
+    </div>
+  </div>
+
+  <!-- MENU PREVIEW -->
+  <section class="menu-preview section">
+    <div class="container">
+      <div class="menu-preview__layout">
+        <div class="menu-preview__text reveal">
+          <span class="menu-preview__label">Seasonal Menu</span>
+          <h2>From the<br/>Wood-Fired Oven</h2>
+          <hr class="divider" />
+          <div class="menu-preview__items">
+            <div class="menu-preview__item">
+              <h3>Lamb</h3>
+              <p>Double chops in a citrus marinade with red wine, mint and rosemary</p>
+            </div>
+            <div class="menu-preview__item">
+              <h3>Homemade Ricotta Cavatelli</h3>
+              <p>Creamy pancetta and sage sauce, topped with Reggiano cheese, finished in the oven</p>
+            </div>
+            <div class="menu-preview__item">
+              <h3>Margherita</h3>
+              <p>San Marzano tomatoes, buffalo mozzarella, Pecorino Romano, fresh basil</p>
+            </div>
+          </div>
+          <a href="/menu" class="btn">View Full Menu</a>
+        </div>
+        <div class="menu-preview__image reveal">
+          <img src="/images/pasta.jpg" alt="Handmade pasta with fresh mozzarella and herbs" loading="lazy" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ATMOSPHERE BAND -->
+  <section class="atmosphere-band">
+    <div class="atmosphere-band__image-wrap">
+      <img src="/images/dining-room.jpg" alt="Guests enjoying dinner at Bado's Cucina, string lights overhead" class="atmosphere-band__image" loading="lazy" />
+      <div class="atmosphere-band__overlay"></div>
+    </div>
+    <div class="atmosphere-band__content container reveal">
+      <blockquote class="atmosphere-band__quote">
+        Calabrian tradition, wood-fired craft, and ingredients found at market that very morning.
+      </blockquote>
+    </div>
+  </section>
+
+  <!-- INFO BAR -->
+  <section class="info-bar section--tight">
+    <div class="container">
+      <div class="info-bar__grid reveal">
+        <div class="info-bar__item">
+          <h3>Hours</h3>
+          <p>Tue &ndash; Thu: 5&ndash;10 pm</p>
+          <p>Fri & Sat: 5&ndash;11 pm</p>
+        </div>
+        <div class="info-bar__item">
+          <h3>Location</h3>
+          <p>3825 Washington Rd</p>
+          <p>McMurray, PA 15317</p>
+        </div>
+        <div class="info-bar__item">
+          <h3>Reservations</h3>
+          <a href="tel:7249423904" class="info-bar__phone">724.942.3904</a>
+        </div>
+        <div class="info-bar__item">
+          <h3>BYOB</h3>
+          <p>Bring your own bottle</p>
+          <p>Corkage fee applies</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="final-cta section">
+    <div class="container" style="text-align: center;">
+      <h2 class="final-cta__heading reveal">Join Us</h2>
+      <p class="final-cta__sub reveal">Reservations recommended</p>
+      <a href="tel:7249423904" class="btn btn--solid reveal">Call 724.942.3904</a>
+    </div>
+  </section>
+
+</Layout>
+
+<style>
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+  }
+
+  /* ============================
+     HERO — The Signature Moment
+     ============================ */
+  .hero {
+    position: relative;
+    height: 100dvh;
+    min-height: 600px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background: var(--color-bg);
+  }
+
+  .hero__bg {
+    position: absolute;
+    inset: 0;
+    opacity: 0.25;
+  }
+
+  .hero__bg-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: blur(1px);
+  }
+
+  .hero__bg-overlay {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+      ellipse at center,
+      oklch(0.13 0.01 55 / 0) 0%,
+      oklch(0.13 0.01 55 / 0.8) 70%,
+      oklch(0.13 0.01 55 / 1) 100%
+    );
+  }
+
+  .hero__content {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+  }
+
+  /* Fire-filled text */
+  .hero__fire-text {
+    font-family: var(--font-display), Georgia, serif;
+    font-weight: 900;
+    font-size: clamp(100px, 22vw, 360px);
+    line-height: 0.85;
+    letter-spacing: 0.02em;
+    background-image: url('/images/fire.jpg');
+    background-size: cover;
+    background-position: 50% 50%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: fire-drift 6s ease-in-out infinite;
+    user-select: none;
+    filter: brightness(1.3) saturate(1.2);
+  }
+
+  @keyframes fire-drift {
+    0%   { background-position: 50% 55%; }
+    50%  { background-position: 50% 45%; }
+    100% { background-position: 50% 55%; }
+  }
+
+  .hero__text-group {
+    margin-top: var(--space-s);
+  }
+
+  .hero__cucina {
+    font-family: var(--font-display), Georgia, serif;
+    font-weight: 400;
+    font-style: italic;
+    font-size: clamp(1.5rem, 1rem + 2vw, 3rem);
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--color-text);
+  }
+
+  .hero__tagline {
+    font-family: var(--font-body), system-ui, sans-serif;
+    font-size: 0.8rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+    margin-top: var(--space-s);
+  }
+
+  /* Scroll hint */
+  .hero__scroll-hint {
+    position: absolute;
+    bottom: var(--space-l);
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1;
+
+    & span {
+      display: block;
+      width: 1px;
+      height: 40px;
+      background: linear-gradient(to bottom, var(--color-accent), transparent);
+      animation: scroll-pulse 2s ease-in-out infinite;
+    }
+  }
+
+  @keyframes scroll-pulse {
+    0%, 100% { opacity: 0.3; transform: scaleY(0.6); }
+    50%      { opacity: 1; transform: scaleY(1); }
+  }
+
+  /* =========
+     WELCOME
+     ========= */
+  .welcome__quote {
+    font-family: var(--font-display), Georgia, serif;
+    font-style: italic;
+    font-size: clamp(1.3rem, 1.1rem + 1vw, 2rem);
+    line-height: 1.5;
+    color: var(--color-text);
+  }
+
+  .welcome__detail {
+    color: var(--color-text-muted);
+    max-width: 500px;
+    margin-inline: auto;
+  }
+
+  /* ============
+     PHOTO STRIP
+     ============ */
+  .photo-strip {
+    overflow: hidden;
+  }
+
+  .photo-strip__track {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    background: var(--color-border);
+  }
+
+  .photo-strip__track img {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.6s var(--ease-out);
+  }
+
+  .photo-strip__track img:hover {
+    transform: scale(1.03);
+  }
+
+  @media (max-width: 640px) {
+    .photo-strip__track {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  /* =============
+     MENU PREVIEW
+     ============= */
+  .menu-preview {
+    background: var(--color-bg-warm);
+  }
+
+  .menu-preview__layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-xl);
+    align-items: center;
+  }
+
+  .menu-preview__label {
+    font-size: 0.8rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--color-accent);
+    display: block;
+    margin-bottom: var(--space-s);
+  }
+
+  .menu-preview__text h2 {
+    color: var(--color-text);
+  }
+
+  .menu-preview__items {
+    display: grid;
+    gap: var(--space-m);
+    margin-bottom: var(--space-xl);
+  }
+
+  .menu-preview__item {
+    & h3 {
+      font-family: var(--font-display), Georgia, serif;
+      font-size: 1.1rem;
+      font-weight: 400;
+      color: var(--color-text);
+      margin-bottom: 0.2em;
+    }
+
+    & p {
+      font-size: 0.9rem;
+      color: var(--color-text-muted);
+    }
+  }
+
+  .menu-preview__image img {
+    width: 100%;
+    aspect-ratio: 3 / 4;
+    object-fit: cover;
+    border: 1px solid var(--color-border);
+  }
+
+  @media (max-width: 768px) {
+    .menu-preview__layout {
+      grid-template-columns: 1fr;
+    }
+
+    .menu-preview__image {
+      order: -1;
+    }
+  }
+
+  /* ===============
+     ATMOSPHERE BAND
+     =============== */
+  .atmosphere-band {
+    position: relative;
+    min-height: 50vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  .atmosphere-band__image-wrap {
+    position: absolute;
+    inset: 0;
+  }
+
+  .atmosphere-band__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(0.4);
+  }
+
+  .atmosphere-band__overlay {
+    position: absolute;
+    inset: 0;
+    background: oklch(0.13 0.01 55 / 0.5);
+  }
+
+  .atmosphere-band__content {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    padding-block: var(--space-2xl);
+  }
+
+  .atmosphere-band__quote {
+    font-family: var(--font-display), Georgia, serif;
+    font-style: italic;
+    font-size: clamp(1.5rem, 1.2rem + 1.5vw, 2.5rem);
+    line-height: 1.4;
+    color: var(--color-text);
+    max-width: 700px;
+    margin-inline: auto;
+  }
+
+  /* ========
+     INFO BAR
+     ======== */
+  .info-bar {
+    border-top: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .info-bar__grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-l);
+    text-align: center;
+  }
+
+  .info-bar__item h3 {
+    font-family: var(--font-body), system-ui, sans-serif;
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--color-accent);
+    margin-bottom: var(--space-xs);
+  }
+
+  .info-bar__item p {
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
+    line-height: 1.5;
+  }
+
+  .info-bar__phone {
+    font-family: var(--font-display), Georgia, serif;
+    font-size: 1.25rem;
+    color: var(--color-text);
+    transition: color 0.3s;
+
+    &:hover {
+      color: var(--color-accent);
+    }
+  }
+
+  @media (max-width: 768px) {
+    .info-bar__grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .info-bar__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  /* =========
+     FINAL CTA
+     ========= */
+  .final-cta__heading {
+    font-size: clamp(2rem, 1.5rem + 2vw, 4rem);
+    font-style: italic;
+  }
+
+  .final-cta__sub {
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-l);
+  }
+</style>
